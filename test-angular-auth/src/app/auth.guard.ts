@@ -18,6 +18,10 @@ export class AuthGuard implements CanActivate {
           this.oidcSecurityService.authorize();
           return false;
         }
+        
+        // Ensure user state is loaded from OIDC client
+        this.userStateService.loadUserFromOidc();
+        
         // Check for privilege if specified in route data
         const requiredPrivilege = route.data?.privilege;
         if (requiredPrivilege) {
