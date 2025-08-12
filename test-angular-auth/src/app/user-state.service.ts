@@ -31,4 +31,28 @@ export class UserStateService {
     this._user.set(null);
     localStorage.removeItem('userState');
   }
+
+  /**
+   * Returns an array of privileges/roles from the user profile or token.
+   * Adjust the logic based on your IdP claims structure.
+   */
+  getPrivileges(): string[] {
+    const user = this._user();
+    if (!user) return [];
+    // Common claim names: 'role', 'roles', 'privileges', 'permissions'
+    const profile = user.profile || {};
+    if (profile.role) {
+      return Array.isArray(profile.role) ? profile.role : [profile.role];
+    }
+    if (profile.roles) {
+      return Array.isArray(profile.roles) ? profile.roles : [profile.roles];
+    }
+    if (profile.privileges) {
+      return Array.isArray(profile.privileges) ? profile.privileges : [profile.privileges];
+    }
+    if (profile.permissions) {
+      return Array.isArray(profile.permissions) ? profile.permissions : [profile.permissions];
+    }
+    return [];
+  }
 }

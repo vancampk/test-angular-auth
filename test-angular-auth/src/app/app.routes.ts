@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 
 import { CallbackComponent } from './callback.component';
+import { AdminComponent } from './admin.component';
 import { Component } from '@angular/core';
 
 @Component({
@@ -15,6 +16,12 @@ export const routes: Routes = [
 	{
 		path: 'callback',
 		component: CallbackComponent,
+	},
+	{
+		path: 'admin',
+		component: AdminComponent,
+		canActivate: [AuthGuard],
+		data: { privilege: 'admin' },
 	},
 	{
 		path: 'main-menu',
